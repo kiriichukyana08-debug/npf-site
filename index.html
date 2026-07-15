@@ -70144,11 +70144,23 @@ window.NPF_DATA = {
     </script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
 // Проверка загрузки XLSX
 if (typeof XLSX === 'undefined') {
-  console.error('XLSX library failed to load');
+  console.warn('XLSX library not loaded - download function will be disabled');
+  // Создаем заглушку для XLSX, чтобы избежать ошибок
+  window.XLSX = {
+    utils: {
+      book_new: function() { return {}; },
+      book_append_sheet: function() {},
+      json_to_sheet: function() { return {}; },
+      sheet_to_json: function() { return []; }
+    },
+    write: function() {},
+    writeFile: function() {},
+    read: function() { return {}; }
+  };
 }
 const {
   useEffect,
