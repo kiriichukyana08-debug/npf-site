@@ -70144,8 +70144,12 @@ window.NPF_DATA = {
     </script>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
+// Проверка загрузки XLSX
+if (typeof XLSX === 'undefined') {
+  console.error('XLSX library failed to load');
+}
 const {
   useEffect,
   useMemo,
@@ -70326,6 +70330,11 @@ function getHashParam(name) {
   return new URLSearchParams(query).get(name);
 }
 function downloadData() {
+  if (typeof XLSX === 'undefined') {
+    console.error('XLSX library not loaded');
+    alert('Библиотека для экспорта не загружена. Пожалуйста, обновите страницу.');
+    return;
+  }
   const {
     sourceFiles,
     ...publicBundle
